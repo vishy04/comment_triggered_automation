@@ -1,0 +1,7 @@
+[project]
+name = "ig-dm-bot"
+version = "0.1.0"
+dependencies = [
+    "instagrapi",
+    "python-dotenv",
+]
