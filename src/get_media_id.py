@@ -1,7 +1,7 @@
 import sys
 
 def get_media_id(url):
-    # Extract just the 11 character shortcode from the url
+
     shortcode = url.rstrip('/').split('?')[0].split('/')[-1][:11]
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
     

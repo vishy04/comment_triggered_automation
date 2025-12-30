@@ -15,7 +15,7 @@ def login_instagram() -> Client:
             print(f"Cached session invalid or expired: {e}")
             print("Attempting fresh login...")
 
-    # Create a completely fresh client to avoid any corrupted settings from the file
+
     client = Client()
     username = os.environ.get("IG_USERNAME")
     password = os.environ.get("IG_PASSWORD")

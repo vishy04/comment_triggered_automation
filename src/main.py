@@ -26,7 +26,7 @@ def main():
     sender = DMSender()
     seen = load_seen()
     
-    print(f"Polling {media_id} for '{keyword}'... (Press Ctrl+C to stop)")
+    print(f"Polling {media_id} for '{keyword}'... (Ctrl+C to stop)")
     
     while True:
         try:

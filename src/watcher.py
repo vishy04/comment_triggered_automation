@@ -13,7 +13,7 @@ def mark_seen(comment_id, file_path="seen.txt"):
 def poll_comments(client, media_id, keyword, seen_set):
     matches = []
     try:
-        # Only fetch latest 50 comments to avoid hitting aggressive API limits with amount=0
+
         comments = client.media_comments(media_id, amount=50)
         for comment in comments:
             if keyword.lower() in comment.text.lower() and str(comment.pk) not in seen_set:
