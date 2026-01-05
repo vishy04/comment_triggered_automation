@@ -2,7 +2,7 @@ import sys
 
 def get_media_id(url):
 
-    shortcode = url.rstrip('/').split('?')[0].split('/')[-1][:11]
+    shortcode = url.split('?')[0].rstrip('/').split('/')[-1][:11]
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
     
     media_id = 0
