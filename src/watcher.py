@@ -1,5 +1,6 @@
 import os
 import sqlite3
+from datetime import datetime, timedelta
 
 _db_path = "data/seen.db"
 
@@ -32,13 +33,42 @@ def mark_seen(comment_id, db_path=_db_path):
     finally:
         conn.close()
 
-def poll_comments(client, media_id, keyword, seen_set):
+def fetch_recent_reels(client, days=7):
+    recent_medias = []
+    try:
+        user_id = client.user_id
+        # amount=20 is sufficient buffer to scrape a highly active user's past 7 days
+        medias = client.user_medias(user_id, amount=20)
+        
+        # media.taken_at natively yields offset-aware datetimes
+        # so we extract the plain naive datetime to compare generically
+        cutoff_date = datetime.now() - timedelta(days=days)
+        
+        for media in medias:
+            # strip timezone info to safely equate
+            taken_at_naive = media.taken_at.replace(tzinfo=None)
+            if taken_at_naive >= cutoff_date:
+                recent_medias.append(media.pk)
+    except Exception as e:
+        print(f"Error fetching recent reels: {e}")
+    return recent_medias
+
+def poll_global_comments(client, media_id, campaigns, seen_set):
     matches = []
     try:
         comments = client.media_comments(media_id, amount=50)
         for comment in comments:
-            if keyword.lower() in comment.text.lower() and str(comment.pk) not in seen_set:
-                matches.append(comment)
+            if str(comment.pk) in seen_set:
+                continue
+                
+            normalized_text = comment.text.lower().strip()
+            
+            # Loop against the provided global dictionary mapping keywords seamlessly
+            for keyword, target_message in campaigns.items():
+                normalized_keyword = str(keyword).lower().strip()
+                if normalized_keyword in normalized_text:
+                    matches.append((comment, target_message))
+                    break
     except Exception as e:
         print(f"Error checking comments on {media_id}: {e}")
     return matches
