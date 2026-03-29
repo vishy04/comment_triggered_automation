@@ -22,7 +22,7 @@ def generate_dm_response(comment_text: str, fallback_message: str) -> str:
         f"and provide them with this exact link/message: '{fallback_message}'. "
     )
     
-    # 8-Tier Free Model Fallback Waterfall (Ranked by speed/quality ratio)
+    # 8-Tier Free Model(Ranked by speed/quality ratio)
     models = [
         "meta-llama/llama-3.3-70b-instruct:free",
         "openai/gpt-oss-120b:free",
